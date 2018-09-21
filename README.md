@@ -1,4 +1,4 @@
-# Create a simple CRUD with MongoDB.
+# Create a simple CRUD with MongoDB. [![Build Status](https://travis-ci.org/marioidival/crud-mongodb.svg?branch=master)](https://travis-ci.org/marioidival/crud-mongodb)
 
 Create a contacts app with Golang and MongoDB.
 
