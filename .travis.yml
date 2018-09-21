@@ -1,0 +1,23 @@
+sudo: false
+
+dist: trusty
+
+services:
+  - mongodb
+
+language: go
+
+os:
+  - linux
+
+go:
+  - master
+
+before_install:
+  - go get -v ./...
+
+before_script:
+  - sleep 15
+
+script:
+  - go test -v ./...
