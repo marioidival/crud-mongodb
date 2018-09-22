@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
+	. "github.com/marioidival/crud-mongodb/model"
 )
 
 func TestAllContacts(t *testing.T) {
@@ -44,18 +46,23 @@ func TestAllContacts(t *testing.T) {
 		t.Error("expected a json application")
 	}
 
-	if len(contacts) != 1 {
-		t.Error("unexpected len of contacts")
+	if len(contacts) != 0 {
+		t.Errorf("unexpected len of contacts, got: %d", len(contacts))
 	}
 }
 
 func TestGetContact(t *testing.T) {
+	obj, err := dao.FakeInsert()
+	if err != nil {
+		t.Error(err.Error())
+	}
+
 	r := mux.NewRouter()
 	r.HandleFunc("/contacts/{id}/", GetContact).Methods("GET")
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
-	res, err := http.Get(ts.URL + "/contacts/1/")
+	res, err := http.Get(ts.URL + fmt.Sprintf("/contacts/%s/", obj.Hex()))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -80,7 +87,7 @@ func TestGetContact(t *testing.T) {
 		t.Error("expected a json application")
 	}
 
-	if contact.ID != "1" {
+	if contact.ID != obj {
 		t.Error("unexpected contact ID")
 	}
 }
@@ -128,12 +135,17 @@ func TestSaveContact(t *testing.T) {
 		t.Error("unexpeced name")
 	}
 
-	if newContact.ID == "" {
+	if newContact.ID.Hex() == "" {
 		t.Error("Unexpected contact ID")
 	}
 }
 
 func TestUpdateContact(t *testing.T) {
+	obj, err := dao.FakeInsert()
+	if err != nil {
+		t.Error(err.Error())
+	}
+
 	r := mux.NewRouter()
 	r.HandleFunc("/contacts/{id}/", UpdateContact).Methods("PUT")
 	ts := httptest.NewServer(r)
@@ -141,13 +153,14 @@ func TestUpdateContact(t *testing.T) {
 
 	var contact Contact
 	contact.Name = "idival"
+	contact.ID = obj
 
 	bContact, err := json.Marshal(contact)
 	if err != nil {
 		t.Error(err.Error())
 	}
 	updatedContactPayLoad := bytes.NewReader(bContact)
-	req, err := http.NewRequest("PUT", ts.URL+"/contacts/3/", updatedContactPayLoad)
+	req, err := http.NewRequest("PUT", ts.URL+fmt.Sprintf("/contacts/%s/", obj.Hex()), updatedContactPayLoad)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -176,21 +189,26 @@ func TestUpdateContact(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	if updatedContact.Name == "mario" {
+	if updatedContact.Name == "teste name" {
 		t.Errorf("unexpeced name, got: %s", updatedContact.Name)
 	}
 
-	if updatedContact.ID == "" {
+	if updatedContact.ID.Hex() == "" {
 		t.Error("Unexpected contact ID")
 	}
 }
 
 func TestDeleteContact(t *testing.T) {
+	obj, err := dao.FakeInsert()
+	if err != nil {
+		t.Error(err.Error())
+	}
+
 	r := mux.NewRouter()
 	r.HandleFunc("/contacts/{id}/", DeleteContact).Methods("DELETE")
 	ts := httptest.NewServer(r)
 	defer ts.Close()
-	req, err := http.NewRequest("DELETE", ts.URL+"/contacts/3/", nil)
+	req, err := http.NewRequest("DELETE", ts.URL+fmt.Sprintf("/contacts/%s/", obj.Hex()), nil)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -209,5 +227,8 @@ func TestDeleteContact(t *testing.T) {
 		t.Error("expected a json application")
 	}
 
-	// retry get contact removed.
+	_, err = dao.FindByID(obj.Hex())
+	if err == nil {
+		t.Error("should be not found")
+	}
 }

@@ -6,25 +6,16 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/globalsign/mgo/bson"
 	"github.com/gorilla/mux"
+	. "github.com/marioidival/crud-mongodb/dao"
+	. "github.com/marioidival/crud-mongodb/model"
 )
 
-// Address model to address ...
-type Address struct {
-	Street  string `json:"street"`
-	City    string `json:"city"`
-	State   string `json:"state"`
-	Number  int    `json:"number"`
-	Country string `json:"country"`
-}
+var dao = Dao{Database: "crudmongodb", Collection: "contacts"}
 
-// Contact model to contact ...
-type Contact struct {
-	ID      string  `json:"id"`
-	Name    string  `json:"name"`
-	Phone   string  `json:"phone"`
-	Email   string  `json:"email"`
-	Adrress Address `json:"address,omitempty"`
+func init() {
+	dao.Connect()
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +25,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 // AllContacts return all contacts.
 func AllContacts(w http.ResponseWriter, r *http.Request) {
 	var contacts []Contact
-	contacts = append(contacts, Contact{Name: "mario", Phone: "53531531", Email: "lol@lol.com"})
+	contacts, err := dao.FindAll()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(contacts); err != nil {
 		fmt.Fprintf(w, "Invalid reponse payload")
@@ -47,12 +42,10 @@ func GetContact(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	contactID := vars["id"]
 
-	// logic to search contact.
-	var contact Contact
-	contact.ID = contactID
-	contact.Name = "mario"
-	contact.Phone = "53153153"
-	contact.Email = "lol@lol.com"
+	contact, err := dao.FindByID(contactID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(contact); err != nil {
@@ -70,10 +63,14 @@ func SaveContact(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 	// logic to save new contact
-	newContact.ID = "3"
+	newContact.ID = bson.NewObjectId()
+	err := dao.Insert(newContact)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	fmt.Println(newContact.ID, newContact.Name)
 	if err := json.NewEncoder(w).Encode(newContact); err != nil {
 		fmt.Fprintf(w, "Invalid response payload")
 		return
@@ -87,8 +84,14 @@ func UpdateContact(w http.ResponseWriter, r *http.Request) {
 
 	// logic to search contact
 	var contact Contact
-	contact.ID = contactID
+	contact.ID = bson.ObjectIdHex(contactID)
 	contact.Name = "idival"
+
+	err := dao.Update(contact)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(contact); err != nil {
@@ -100,9 +103,13 @@ func UpdateContact(w http.ResponseWriter, r *http.Request) {
 // DeleteContact delete a specific contact.
 func DeleteContact(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	_ = vars["id"]
+	contactID := vars["id"]
 
-	// logic to remove contact
+	err := dao.Delete(contactID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusNoContent)
