@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,5 +17,7 @@ func main() {
 
 	r.HandleFunc("/", handler).Methods("GET")
 
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":3000", r); err != nil {
+		log.Fatal(err.Error())
+	}
 }
