@@ -20,7 +20,7 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, path %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "Hi there, path is %s!", r.URL.Path[1:])
 }
 
 // AllContacts return all contacts.
