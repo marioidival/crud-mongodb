@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/globalsign/mgo/bson"
 	"github.com/gorilla/mux"
@@ -116,6 +117,7 @@ func DeleteContact(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", handler).Methods("GET")
@@ -125,7 +127,7 @@ func main() {
 	r.HandleFunc("/contacts/{id}/", UpdateContact).Methods("PUT")
 	r.HandleFunc("/contacts/{id}/", DeleteContact).Methods("DELETE")
 
-	if err := http.ListenAndServe(":3000", r); err != nil {
+	if err := http.ListenAndServe(port, r); err != nil {
 		log.Fatal(err.Error())
 	}
 }
