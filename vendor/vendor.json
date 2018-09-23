@@ -1,0 +1,43 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "O1v7ZY6psIKMtE2Ma/hp1myzM2o=",
+			"path": "github.com/globalsign/mgo",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "6070Ot/n8eAtJPtejV9SovspdJU=",
+			"path": "github.com/globalsign/mgo/bson",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "//bXQG4HblBwxHJDIW/PklXAxu0=",
+			"path": "github.com/globalsign/mgo/internal/json",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "loubUcDO2QAStKIlVd7DqSeoEaw=",
+			"path": "github.com/globalsign/mgo/internal/sasl",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "xjfEsfN7ho6dDOVeUQJhW4KzD2I=",
+			"path": "github.com/globalsign/mgo/internal/scram",
+			"revision": "1ca0a4f7cbcbe61c005d1bd43fdd8bb8b71df6bc",
+			"revisionTime": "2018-09-05T12:55:35Z"
+		},
+		{
+			"checksumSHA1": "Ld1fkCBbtUqRg3qu1gZKpP2OyO4=",
+			"path": "github.com/gorilla/mux",
+			"revision": "9e1f5955c0d22b55d9e20d6faa28589f83b2faca",
+			"revisionTime": "2018-09-03T15:43:05Z"
+		}
+	],
+	"rootPath": "github.com/marioidival/crud-mongodb"
+}
