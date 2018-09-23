@@ -31,7 +31,7 @@ func (m *Dao) Connect() {
 			log.Fatal(err.Error())
 		}
 
-		mongoURI = url
+		mongoURI = u
 		db = url.Path[1:]
 	}
 
