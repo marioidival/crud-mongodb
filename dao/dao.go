@@ -2,6 +2,7 @@ package dao
 
 import (
 	"log"
+	"os"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -18,7 +19,13 @@ type Dao struct {
 
 // Connect with mongo server
 func (m *Dao) Connect() {
-	session, err := mgo.Dial("localhost:27017")
+	var mongoURI string
+	mongoURI, ok := os.LookupEnv("MONGODB_URI")
+	if !ok {
+		mongoURI = "localhost:27017"
+	}
+
+	session, err := mgo.Dial(mongoURI)
 	if err != nil {
 		log.Fatal(err)
 	}
