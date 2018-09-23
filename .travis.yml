@@ -5,6 +5,11 @@ dist: trusty
 services:
   - mongodb
 
+addons:
+  code_climate:
+    repo_token:
+       secure: "ucAP/59imd6gjYu+QhxTVPrOi+PCRBjxzZAlPXztnTrk8GyPjMtsXIoLSC5VrkaaDOwuOqg9Kh3JTTjh/dobnbF/NmGVvCqBFCWYjcrKXLEVplwJ8s73PZ5JQsFmKKRko6hxltIFtOHzwWk6nWt5CPuQitBFMoJfsjPdS98h3Ftnw0Cu9EpCv7q+rXDXNj3lDrOsygumeCWI1qYcIHLWYq4zPe1j3CVOeeRXZkfrs1VALpNA3D5JMxDY9TXSlGr3NKaE3R23AtZzvcof7W4AwFGJHyjh/x2c5pMZDCChW/kW6CoFdi8n1+zsi7Cjl9kZ6ZXEkKU4tlmWi55PjQxSsYVBLftjKlR3z9baXn6b8ATbvWWMZLGfY4nY5qlt73ec21S5aHc5TXv+1R3Olnq0iWTaZbbtoJm71whGVwdIyWpSLAQbi97/+B+YgPkQwJ2xgmZVRylxzft5NPzY38gENVumsmxw2c+Ezivg4yz5ws8rJpMWJwJ4DK8J2ooznI+ihT2hoMGaJrr3XS+SLb+FfPU8ifsZSc3YndvDlBrBxp9/OjUH98uRwrFDn/bghyeaPSs+Zjted+vWt31ZFqEeaw8vgUT3xmOIyshQ+u7nUAuBF8K9HfS/eZ+4r9UR8Wbk/cwQgTk2nNUvbMrFA4MJjCypWZOAtxmGl3OsBhH869U"
+
 language: go
 
 os:
