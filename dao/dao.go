@@ -2,6 +2,7 @@ package dao
 
 import (
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/globalsign/mgo"
@@ -19,17 +20,26 @@ type Dao struct {
 
 // Connect with mongo server
 func (m *Dao) Connect() {
-	var mongoURI string
-	mongoURI, ok := os.LookupEnv("MONGODB_URI")
+	var mongoURI, db string
+	u, ok := os.LookupEnv("MONGODB_URI")
 	if !ok {
 		mongoURI = "localhost:27017"
+		db = m.Database
+	} else {
+		url, err := url.Parse(u)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		mongoURI = url
+		db = url.Path[1:]
 	}
 
 	session, err := mgo.Dial(mongoURI)
 	if err != nil {
 		log.Fatal(err)
 	}
-	db = session.DB(m.Database)
+	db = session.DB(db)
 }
 
 // Insert just save a new contact
