@@ -24,7 +24,7 @@ script:
 
 deploy:
   provider: heroku
-  app: crud-mongodb
+  app: crud-go-mongodb
   api_key:
     secure: fsuqw7Ho39fdZQ6pDxknjl5/uPe/Ukgf+ZJzyJXXCM2HhQSQaYPuYJFNqXPfYykjKbS7DOY35oWvy/J3eg60l1r0LJZIbV58Ae2Y3CODPZKGBEnhQiYqNlTlxIjn7CDbxp7/Mz5t8sb7CFHQgWHioVxfUw9e0og3O3X0vbSkzJ8Dv5GnBv0kbNMk3dAw0N528KA/SDS1S+WYoaXwjaLOvQjtLBTa7qHnIZ+f3QQlJYqZVJgQgN/NHuxMBG2PCDZ3PdR3UuHJjwDQjiYeKhux2ZjGjRGwXecJlog5dbSqoEp665k3Pp4yB6Uld8KH2RKJryXc+RqlZ99a4kJ+lfEP+SAj/weOXelhL/vC5IAywODxbSEooOVHf6/R2yok6cAdaOvSHs73AcD+nscgcq6QFs0E9TUXz8hRPLWtRwY+bQLl8dLlc/AG8hH4ZZeRi/A9+x4IZjHOybMUOB1aDKkweEbnwOZx+DNYJ4is0F8/VpzEX5E6oLDYR2tPATg/XLv5UJU8+UFFeJwIqCwjEZLwQvbe5VcIbRMi/jcpJPkT/FIwYBo45DtDGmJFrg+dakZ+eo3ARcux62gyH4H+Gk8ladb2ge3h0xMv2ez6rc3MaInB+u8+xAynM6rRI02n1XeuKOQHNuSLxygue4IwPvXpelQIWBTL1NYHJntydnuGknw=
   strategy: git
