@@ -29,7 +29,6 @@ before_script:
   - chmod 700 ./cover.sh
 
 script:
-  - go test -v ./...
   - "./cover.sh"
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
