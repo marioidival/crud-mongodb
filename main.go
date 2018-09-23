@@ -127,7 +127,7 @@ func main() {
 	r.HandleFunc("/contacts/{id}/", UpdateContact).Methods("PUT")
 	r.HandleFunc("/contacts/{id}/", DeleteContact).Methods("DELETE")
 
-	if err := http.ListenAndServe(port, r); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), r); err != nil {
 		log.Fatal(err.Error())
 	}
 }
