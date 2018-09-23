@@ -20,11 +20,11 @@ type Dao struct {
 
 // Connect with mongo server
 func (m *Dao) Connect() {
-	var mongoURI, db string
+	var mongoURI, dbname string
 	u, ok := os.LookupEnv("MONGODB_URI")
 	if !ok {
 		mongoURI = "localhost:27017"
-		db = m.Database
+		dbname = m.Database
 	} else {
 		url, err := url.Parse(u)
 		if err != nil {
@@ -32,14 +32,14 @@ func (m *Dao) Connect() {
 		}
 
 		mongoURI = u
-		db = url.Path[1:]
+		dbname = url.Path[1:]
 	}
 
 	session, err := mgo.Dial(mongoURI)
 	if err != nil {
 		log.Fatal(err)
 	}
-	db = session.DB(db)
+	db = session.DB(dbname)
 }
 
 // Insert just save a new contact
